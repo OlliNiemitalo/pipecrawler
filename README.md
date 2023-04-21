@@ -5,7 +5,7 @@ The idea is to build a robot that rotates inside the pipe and slowly moves along
 
 ## First prototype 2023-04-21
 
-First we try to build the upper unit that carries the camera. This should be rotated with respect to a lower unit.
+First we try to build the upper unit that carries the camera. This should be rotated with respect to a lower unit by a slow motor.
 
 ![image description](crawler1.png)
 
@@ -15,4 +15,4 @@ The wheels use roller blade bearings with a Fiberlogy Fiberflex 40D tire.
 
 ![image](https://user-images.githubusercontent.com/60920087/233575127-6ddb9166-6b72-4d2e-974e-c1c463e9f9bc.png)
 
-This was 3d-printed in PETG in two halves ("top" and "bottom"). The flexure springs feel a bit too tight, likely demanding too much power from the motor.
+The upper unit was 3d-printed in PETG in two halves ("top" and "bottom"). The flexure springs feel a bit too tight, likely demanding too much power from the motor.
