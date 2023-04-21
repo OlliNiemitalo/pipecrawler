@@ -11,7 +11,7 @@ First we try to build the upper unit that carries the camera. This should be rot
 
 ![image description](crawler2.png)
 
-The wheels use "608" roller blade bearings with a Fiberlogy Fiberflex 40D tire.
+The wheels use "608" roller blade bearings with a Fiberlogy Fiberflex 40D (thermoplastic polyurethane) tire. It is a bit slippery but perhaps not as slippery as TPU.
 
 ![image](https://user-images.githubusercontent.com/60920087/233575127-6ddb9166-6b72-4d2e-974e-c1c463e9f9bc.png)
 
