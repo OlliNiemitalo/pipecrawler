@@ -1,7 +1,7 @@
 # Pipecrawler
 Crawler for helical scanning of pipes. Work in progress.
 
-The idea is to build a robot that rotates inside a straight pipe of roughly 12 cm diameter and slowly moves along the pipe, so that the camera looks at a helical track with overlapping cycles. Attaching a camera allows to image the pipe or to image whatever is outside a transparent pipe, such as plant roots. Overlap of successive turns allows stitching the images or video together.
+The idea is to build a robot that rotates inside a straight pipe of roughly 12 cm diameter and slowly moves along the pipe. Attaching a camera to the robot allows to image the pipe or to image whatever is outside a transparent pipe, such as plant roots. The camera looks at a helical track that overlaps itself by some amount on successive turns. The overlap allows stitching the images or video together. Light sources can be attached to the robot.
 
 ## First prototype 2023-04-21
 
