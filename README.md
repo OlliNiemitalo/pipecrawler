@@ -15,4 +15,4 @@ The wheels use roller blade bearings with a Fiberlogy Fiberflex 40D tire.
 
 ![image](https://user-images.githubusercontent.com/60920087/233575127-6ddb9166-6b72-4d2e-974e-c1c463e9f9bc.png)
 
-The upper unit was 3d-printed in PETG in two halves ("top" and "bottom"). The flexure springs feel a bit too tight, likely demanding too much power from the motor.
+The upper unit was 3d-printed in PETG in two halves ("top" and "bottom"). The flexure springs feel a bit too tight, likely demanding too much power from a motor.
