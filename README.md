@@ -5,7 +5,7 @@ The idea is to build a robot that rotates inside a straight pipe of roughly 12 c
 
 ## First prototype 2023-04-21
 
-First we try to build the upper unit that carries the camera. This should be rotated with respect to a lower unit by a slow motor.
+First we try to build the upper crawler unit that carries the camera. This should be rotated with respect to a lower crawler unit, by a slow motor.
 
 ![image description](crawler1.png)
 
