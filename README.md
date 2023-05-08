@@ -23,6 +23,8 @@ The upper unit was 3d-printed in PETG in two halves ("top" and "bottom"). The fl
 
 The second revision of the prototype has a simpler and a less stiff spring arrangement. The bolt size was reduced from M4 to M3 and overhangs in bolt head slots were reduced to 45 degs because there were print problems with those.
 
+![image description](pipecrawler%20rev%202%20print.png)
+
 The wheels use "608" roller blade bearings with a 3d-printed tire made of Fiberlogy Fiberflex 40D, a thermoplastic polyester filament. Unfortunately it is a bit slippery but perhaps not as slippery as thermoplastic polyurethane (TPU). Layer changes in printing give small bumps; vase mode printing could be investigated, but it would require g-code editing.
 
 ![image](https://user-images.githubusercontent.com/60920087/233575127-6ddb9166-6b72-4d2e-974e-c1c463e9f9bc.png)
