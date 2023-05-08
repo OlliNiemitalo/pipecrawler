@@ -1,7 +1,10 @@
 # Pipecrawler
 Crawler for helical scanning of pipes. Work in progress.
 
-The idea is to build a robot that rotates inside a straight pipe of roughly 12 cm diameter and slowly moves along the pipe. Attaching a camera to the robot allows to image the pipe or to image whatever is outside a transparent pipe, such as plant roots. The camera looks at a helical track that overlaps itself by some amount on successive turns. The overlap allows stitching the images or video together. Light sources can be attached to the robot.
+The idea is to build a root imaging robot that travels and rotates inside a transparent pipe installed into the soil. The design is for a pipe with an outer diameter of 120 mm and an inner diameter of 114 mm. PMMA is a good material for the pipe because it passes light wavelengths 400 nm to 1100 nm without significant attenuation. PMMA pipe with these dimensions is readily available at a cost around 50 €/m. A larger pipe with 150 mm outer diameter and a 144 mm inner diameter could alternatively be used, but it would be more expensive. Earth augers of both diameters are available for drilling the hole, with a cost around 250 € for the bit only. The robot's camera will look at a helical track that overlaps itself by some amount on successive turns, so that the images or the video can be stitched together. Light sources can be attached to the robot. Attaching to the robot a phone with a camera may be the easiest option. A suitable budget phone costing around 200 € is [Samsung Galaxy A23 5G](https://www.gsmarena.com/samsung_galaxy_a23_5g-11736.php) with a 2 megapixel fixed-focus macro camera with a 30-50 mm focus distance. A USB-C hub with external powering can be attached to the phone for charging and for peripherals such as a webcam for infrared imaging.
+
+![image description](phone%20and%20pipe.png)
+Pipe size comparison.
 
 ## First prototype 2023-04-21
 
