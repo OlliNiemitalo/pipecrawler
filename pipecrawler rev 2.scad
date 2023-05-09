@@ -202,7 +202,7 @@ for (i = [0:2]) rotate([0, 0, 360/3*i]) {
  
  //pipe();
  
- //rotate([180, 0, 0]) drilledcrown(true);
- drilledcrown(true);
+ rotate([180, 0, 0]) drilledcrown(true);
+ drilledcrown(false);
  
- //hardware();
+ hardware();
