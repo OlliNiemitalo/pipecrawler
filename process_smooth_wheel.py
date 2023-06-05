@@ -3,20 +3,24 @@ from gcodeparser import GcodeParser
 with open('smooth wheel_0.2mm_FLEX_MK3S_8m.gcode', mode='r', encoding='UTF-8') as f:
   gcode = f.read()
 
-min_z = 0.75 + 0.5
-max_z = 0.75 + 7 - 0.75 - 0.5
+bearing_height = 7
+bearing_od = 22
+bearing_bevel = 0.5
+extra_bevel = 0.75
+
+min_z = extra_bevel + bearing_bevel
+max_z = extra_bevel + bearing_height - extra_bevel - bearing_bevel
+
 n = 0
 center_x = 0
 center_y = 0
 
 for line in GcodeParser(gcode, include_comments=True).lines:
-    if line.command[0] == "G" and line.command[1] == 1 and 'X' in line.params and 'Y' in line.params and 'Z' in line.params and 'E' in line.params:
+    if line.command[0] == "G" and line.command[1] == 1 and 'X' in line.params and 'Y' in line.params and 'E' in line.params:
         z = line.get_param('Z')
-        #if z > max_z:
-        #    max_z = z
-        n += 1
-        center_x += line.get_param('X')
-        center_y += line.get_param('Y')
+        n += line.get_param('E')
+        center_x += line.get_param('X')*line.get_param('E')
+        center_y += line.get_param('Y')*line.get_param('E')
 
 center_x = center_x/n
 center_y = center_y/n
@@ -29,6 +33,8 @@ print(f"max_z: {max_z}")
 
 max_e = 0
 max_new_e = 0
+
+def calc_thickness(rel_z) = (rel_z < 0 || rel_z > 1) ? min_thickness : min_thickness + (max_thickness - min_thickness)*4*rel_z*(1 - rel_z);
 
 with open('smooth wheel_0.2mm_FLEX_MK3S_8m_processed.gcode', mode='w', encoding='UTF-8') as wf:
     for line in GcodeParser(gcode, include_comments=True).lines:

@@ -7,7 +7,7 @@ pipe_height = 300;
 helix_pitch = 20;
 wheel_angle = atan2(helix_pitch, PI*pipe_id);
 
-wheel_bearing_with_washers_height = 10;
+wheel_bearing_with_washers_height = 7; // 10 if washers, 7 if without
 wheel_bearing_height = 7;
 wheel_bearing_od = 22;
 wheel_bearing_id = 8;
@@ -22,7 +22,7 @@ bolt_nominal_diameter = 3;
 bolt_head_diameter = 6;
 bolt_head_height = 3;
 
-wheel_support_height = 10;
+wheel_support_height = 11;
 wheel_vertical_clearance = 2;
 wheel_horizontal_clearance = 10;
 wheel_support_width = 13;
@@ -36,8 +36,10 @@ spring_angles = [-19.1, 152.4];
 spring_extra_angles = [-38, 146];
 spring_n = 4;
 
-body_id = 7.85;
+body_id = 34;//7.85;
 body_od = 50;
+
+conn_screw_r = 21;
 
 spring_t = 1;
 
@@ -120,7 +122,10 @@ for (i = [0:2]) rotate([0, 0, 360/3*i]) {
         }       
     } 
         // Deleting slab
-        translate([0, 0, + 5]) cube([wheel_support_width, wheel_support_depth, 10], center = true);
+        multmatrix([[1, 0, 0, 0], [0, 1, -tan(wheel_angle), 0], [0, 0, 1, 0], [0, 0, 0, 1]]) {
+        translate([0, -wheel_support_width/2, 5 - 1]) cube([wheel_support_width, wheel_support_depth, 10], center = true);
+        translate([0, 0, 5 + 1]) cube([wheel_support_width, wheel_support_depth, 10], center = true);
+        }
     }
     }
 }}
@@ -131,56 +136,67 @@ for (i = [0:2]) rotate([0, 0, 360/3*i]) {
         translate([0, 0, -wheel_bearing_with_washers_height/2 - wheel_support_height - wheel_vertical_clearance]) cylinder(wheel_bearing_with_washers_height/2 + wheel_vertical_clearance + wheel_support_height, body_od/2, body_od/2, $fn = 64);
         
         // Center hole
-        translate([0, 0, -wheel_bearing_with_washers_height/2 - wheel_support_height - wheel_vertical_clearance]) cylinder(wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance, body_id/2, body_id/2);                
+        translate([0, 0, -wheel_bearing_with_washers_height/2 - wheel_support_height - wheel_vertical_clearance]) cylinder(wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance, body_id/2, body_id/2, $fn = 64);                
     }
  }
  
  
- module drilledcrown(top = false) {
+ module drilledcrown(top = false, mir = false) {
     difference() {
     if (top) {
         // TOP
         // Wheel screws
         //ClearanceHole(bolt_head_diameter, bolt_head_height, position=[cos(120*0)*(pipe_id/2 - wheel_od/2 + wheel_tight), sin(120*0)*(pipe_id/2 - wheel_od/2 + wheel_tight),-(wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance)])
-        ClearanceHole( bolt_nominal_diameter, wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance, position=[cos(120*0)*(pipe_id/2 - wheel_od/2 + wheel_tight), sin(120*0)*(pipe_id/2 - wheel_od/2 + wheel_tight),-(wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance)])  
+        ClearanceHole( bolt_nominal_diameter, wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance + 1, position=[cos(120*0)*(pipe_id/2 - wheel_od/2 + wheel_tight), sin(120*0)*(pipe_id/2 - wheel_od/2 + wheel_tight),-(wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance)])  
          
         //ClearanceHole(bolt_head_diameter, bolt_head_height, position=[cos(120*1)*(pipe_id/2 - wheel_od/2 + wheel_tight), sin(120*1)*(pipe_id/2 - wheel_od/2 + wheel_tight),-(wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance)])
-        ClearanceHole( bolt_nominal_diameter, wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance, position=[cos(120*1)*(pipe_id/2 - wheel_od/2 + wheel_tight), sin(120*1)*(pipe_id/2 - wheel_od/2 + wheel_tight),-(wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance)])  
+        ClearanceHole( bolt_nominal_diameter, wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance + 1, position=[cos(120*1)*(pipe_id/2 - wheel_od/2 + wheel_tight), sin(120*1)*(pipe_id/2 - wheel_od/2 + wheel_tight),-(wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance)])  
    
         //ClearanceHole(bolt_head_diameter, bolt_head_height, position=[cos(120*2)*(pipe_id/2 - wheel_od/2 + wheel_tight), sin(120*2)*(pipe_id/2 - wheel_od/2 + wheel_tight),-(wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance)])
-        ClearanceHole( bolt_nominal_diameter, wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance, position=[cos(120*2)*(pipe_id/2 - wheel_od/2 + wheel_tight), sin(120*2)*(pipe_id/2 - wheel_od/2 + wheel_tight),-(wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance)])  
+        ClearanceHole( bolt_nominal_diameter, wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance + 1, position=[cos(120*2)*(pipe_id/2 - wheel_od/2 + wheel_tight), sin(120*2)*(pipe_id/2 - wheel_od/2 + wheel_tight),-(wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance)])  
          
              
         // Body screws
-        //ClearanceHole(bolt_head_diameter, bolt_head_height, position=[cos(60 + 120*0)*(body_od + body_id)/4, sin(60 + 120*0)*(body_od + body_id)/4,-(wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance)])
-        ClearanceHole( bolt_nominal_diameter, (wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance), position=[cos(60 + 120*0)*(body_od + body_id)/4, sin(60 + 120*0)*(body_od + body_id)/4,-(wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance)])
+        //ClearanceHole(bolt_head_diameter, bolt_head_height, position=[cos(60 + 120*0)*conn_screw_r, sin(60 + 120*0)*conn_screw_r,-(wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance)])
+        ClearanceHole( bolt_nominal_diameter, (wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance), position=[cos(60 + 120*0)*conn_screw_r, sin(60 + 120*0)*conn_screw_r,-(wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance)])
         
-        //ClearanceHole(bolt_head_diameter, bolt_head_height, position=[cos(60 + 120*1)*(body_od + body_id)/4, sin(60 + 120*1)*(body_od + body_id)/4,-(wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance)])
-        ClearanceHole( bolt_nominal_diameter, (wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance), position=[cos(60 + 120*1)*(body_od + body_id)/4, sin(60 + 120*1)*(body_od + body_id)/4,-(wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance)])
+        //ClearanceHole(bolt_head_diameter, bolt_head_height, position=[cos(60 + 120*1)*conn_screw_r, sin(60 + 120*1)*conn_screw_r,-(wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance)])
+        ClearanceHole( bolt_nominal_diameter, (wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance), position=[cos(60 + 120*1)*conn_screw_r, sin(60 + 120*1)*conn_screw_r,-(wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance)])
         
-        //ClearanceHole(bolt_head_diameter, bolt_head_height, position=[cos(60 + 120*2)*(body_od + body_id)/4, sin(60 + 120*2)*(body_od + body_id)/4,-(wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance)])
-        ClearanceHole( bolt_nominal_diameter, (wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance), position=[cos(60 + 120*2)*(body_od + body_id)/4, sin(60 + 120*2)*(body_od + body_id)/4,-(wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance)])
+        //ClearanceHole(bolt_head_diameter, bolt_head_height, position=[cos(60 + 120*2)*conn_screw_r, sin(60 + 120*2)*conn_screw_r,-(wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance)])
+        ClearanceHole( bolt_nominal_diameter, (wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance), position=[cos(60 + 120*2)*conn_screw_r, sin(60 + 120*2)*conn_screw_r,-(wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance)])
+
+        // Additional body screws
+        ScrewHole( bolt_nominal_diameter, (wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance), position=[cos(60 + 40 + 120*0)*conn_screw_r, sin(60 + 40 + 120*0)*conn_screw_r,-(wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance)])        
+        ScrewHole( bolt_nominal_diameter, (wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance), position=[cos(60 + 40 + 120*1)*conn_screw_r, sin(60 + 40 + 120*1)*conn_screw_r,-(wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance)])
+        ScrewHole( bolt_nominal_diameter, (wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance), position=[cos(60 + 40 + 120*2)*conn_screw_r, sin(60 + 40 + 120*2)*conn_screw_r,-(wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance)])
          
-        crown(top);
+        mirror([0, mir? 1: 0, 0]) crown(top);
     } else {
         // BOTTOM
         // Wheel screws
         ScrewHole( bolt_nominal_diameter, wheel_support_height + wheel_vertical_clearance, position=[cos(120*0)*(pipe_id/2 - wheel_od/2 + wheel_tight), sin(120*0)*(pipe_id/2 - wheel_od/2 + wheel_tight),-(wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance)])
-        ClearanceHole( bolt_nominal_diameter, wheel_bearing_with_washers_height/2, position=[cos(120*0)*(pipe_id/2 - wheel_od/2 + wheel_tight), sin(120*0)*(pipe_id/2 - wheel_od/2 + wheel_tight),-wheel_bearing_with_washers_height/2])   
+        ClearanceHole( bolt_nominal_diameter, wheel_bearing_with_washers_height/2 + 1, position=[cos(120*0)*(pipe_id/2 - wheel_od/2 + wheel_tight), sin(120*0)*(pipe_id/2 - wheel_od/2 + wheel_tight),-wheel_bearing_with_washers_height/2])   
          
         ScrewHole( bolt_nominal_diameter, wheel_support_height + wheel_vertical_clearance, position=[cos(120*1)*(pipe_id/2 - wheel_od/2 + wheel_tight), sin(120*1)*(pipe_id/2 - wheel_od/2 + wheel_tight),-(wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance)])
-        ClearanceHole( bolt_nominal_diameter, wheel_bearing_with_washers_height/2, position=[cos(120*1)*(pipe_id/2 - wheel_od/2 + wheel_tight), sin(120*1)*(pipe_id/2 - wheel_od/2 + wheel_tight),-wheel_bearing_with_washers_height/2])   
+        ClearanceHole( bolt_nominal_diameter, wheel_bearing_with_washers_height/2 + 1, position=[cos(120*1)*(pipe_id/2 - wheel_od/2 + wheel_tight), sin(120*1)*(pipe_id/2 - wheel_od/2 + wheel_tight),-wheel_bearing_with_washers_height/2])   
          
         ScrewHole( bolt_nominal_diameter, wheel_support_height + wheel_vertical_clearance, position=[cos(120*2)*(pipe_id/2 - wheel_od/2 + wheel_tight), sin(120*2)*(pipe_id/2 - wheel_od/2 + wheel_tight),-(wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance)])
-        ClearanceHole( bolt_nominal_diameter, wheel_bearing_with_washers_height/2, position=[cos(120*2)*(pipe_id/2 - wheel_od/2 + wheel_tight), sin(120*2)*(pipe_id/2 - wheel_od/2 + wheel_tight),-wheel_bearing_with_washers_height/2])
+        ClearanceHole( bolt_nominal_diameter, wheel_bearing_with_washers_height/2 + 1, position=[cos(120*2)*(pipe_id/2 - wheel_od/2 + wheel_tight), sin(120*2)*(pipe_id/2 - wheel_od/2 + wheel_tight),-wheel_bearing_with_washers_height/2])
                      
         // Body screws
-        ScrewHole( bolt_nominal_diameter, (wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance), position=[cos(60 + 120*0)*(body_od + body_id)/4, sin(60 + 120*0)*(body_od + body_id)/4,-(wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance)])        
-        ScrewHole( bolt_nominal_diameter, (wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance), position=[cos(60 + 120*1)*(body_od + body_id)/4, sin(60 + 120*1)*(body_od + body_id)/4,-(wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance)])
-        ScrewHole( bolt_nominal_diameter, (wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance), position=[cos(60 + 120*2)*(body_od + body_id)/4, sin(60 + 120*2)*(body_od + body_id)/4,-(wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance)])
+        ScrewHole( bolt_nominal_diameter, (wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance), position=[cos(60 + 120*0)*conn_screw_r, sin(60 + 120*0)*conn_screw_r,-(wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance)])        
+        ScrewHole( bolt_nominal_diameter, (wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance), position=[cos(60 + 120*1)*conn_screw_r, sin(60 + 120*1)*conn_screw_r,-(wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance)])
+        ScrewHole( bolt_nominal_diameter, (wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance), position=[cos(60 + 120*2)*conn_screw_r, sin(60 + 120*2)*conn_screw_r,-(wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance)])
+
+        // Additional body screws
+        ScrewHole( bolt_nominal_diameter, (wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance), position=[cos(60 + 40 + 120*0)*conn_screw_r, sin(60 + 40 + 120*0)*conn_screw_r,-(wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance)])        
+        ScrewHole( bolt_nominal_diameter, (wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance), position=[cos(60 + 40 + 120*1)*conn_screw_r, sin(60 + 40 + 120*1)*conn_screw_r,-(wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance)])
+        ScrewHole( bolt_nominal_diameter, (wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance), position=[cos(60 + 40 + 120*2)*conn_screw_r, sin(60 + 40 + 120*2)*conn_screw_r,-(wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance)])
          
-        crown(top);
+        mirror([0, mir? 1: 0, 0]) crown(top);
     }
+    if (top) {
     // Wheel support bolt head slots
     for (i = [0:2]) rotate([0, 0, 360/3*i]) {
         translate([pipe_id/2 - wheel_od/2 + wheel_tight, 0, -(wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance)]) cylinder(bolt_head_height, bolt_head_diameter/2, bolt_head_diameter/2);
@@ -189,9 +205,14 @@ for (i = [0:2]) rotate([0, 0, 360/3*i]) {
 
     // Body bolt head slots
     for (i = [0:2]) rotate([0, 0, 60 + 360/3*i]) {
-        translate([(body_od + body_id)/4, 0, -(wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance)]) cylinder(bolt_head_height, bolt_head_diameter/2, bolt_head_diameter/2);
-        translate([(body_od + body_id)/4, 0, -(wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance) + bolt_head_height]) cylinder(bolt_head_diameter/2, bolt_head_diameter/2, 0);
-
+        translate([conn_screw_r, 0, -(wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance)]) cylinder(bolt_head_height, bolt_head_diameter/2, bolt_head_diameter/2);
+        translate([conn_screw_r, 0, -(wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance) + bolt_head_height]) cylinder(bolt_head_diameter/2, bolt_head_diameter/2, 0);
+    }
+    
+    }
+    // Additional Body bolt head channels
+    for (i = [0:2]) rotate([0, 0, 60 + 80 + 360/3*i]) {
+        translate([conn_screw_r, 0, -(wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance)]) cylinder((wheel_bearing_with_washers_height/2 + wheel_support_height + wheel_vertical_clearance), bolt_head_diameter/2, bolt_head_diameter/2);
     }
     }
  }
@@ -202,7 +223,7 @@ for (i = [0:2]) rotate([0, 0, 360/3*i]) {
  
  //pipe();
  
- rotate([180, 0, 0]) drilledcrown(true);
- drilledcrown(false);
- 
- hardware();
+ //rotate([180, 0, 0]) drilledcrown(true);
+ drilledcrown(false, true);
+ //translate([0, 0, -16.5]) cylinder(16.5, body_od, body_od);
+ //hardware();

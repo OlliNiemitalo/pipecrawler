@@ -5,7 +5,7 @@ bearing_od = 22;
 bearing_id = 8; // Not used
 bearing_bevel = 0.5;
 
-wheel_od = 25;
+wheel_od = 26;
 wheel_profile_r = 8;
 wheel_lip_height = 0.5;
 wheel_lip_width = 1; 
