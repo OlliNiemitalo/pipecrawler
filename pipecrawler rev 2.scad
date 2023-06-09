@@ -29,19 +29,26 @@ wheel_support_width = 13;
 wheel_support_depth = 13;
 wheel_shoulder_diameter = 12;
 
-spring_radius = 20;
-spring_shift_x = 5;
-spring_shift_y = 5;
-spring_angles = [-19.1, 152.4];
-spring_extra_angles = [-38, 146];
+spring_radius = 18;
+spring_shift_x = pipe_id/2 - wheel_od/2 + wheel_tight - spring_radius ;
+spring_shift_y = wheel_support_width/2;
+spring_angles = [-0.6, 134.9];
+spring_extra_angles = [0, 140.8];
 spring_n = 4;
+spring_t = 1;
 
-body_id = 34;//7.85;
+spring2_radius = pipe_id/2 - wheel_od/2 + wheel_tight;
+spring2_shift_x = 0;
+spring2_shift_y = 0;
+spring2_angles = [7.8, 60];
+spring2_extra_angles = [4, 60 + 30];
+spring2_n = 4;
+spring2_t = 1;
+
+body_id = 34;
 body_od = 50;
 
 conn_screw_r = 21;
-
-spring_t = 1;
 
 $fn = 16;
 
@@ -85,10 +92,10 @@ function ease(x, n) = pow(1 - 2*sqrt(x*(1 - x)), n);
 
 function smooth(x) = 0.5 - 0.5*cos(180*x);
 
-module spring(r, angles, t_angles, t_in, extra_in, t_out, extra_out, n, height, $fn = $fn) {    
+module spring(r, angles, t_angles, t_in, extra_in_start, extra_in_end, t_out, extra_out_start, extra_out_end, n, height, $fn = $fn) {    
     points = [
-        for(step = [0:$fn]) [r * cos(angles[0] + (angles[1] - angles[0])*smooth(step/$fn)) + (t_out + extra_out*ease(smooth(step/$fn), n)) * cos(t_angles[0] + (t_angles[1] - t_angles[0])*smooth(step/$fn)), r * sin(angles[0] + (angles[1] - angles[0])*smooth(step/$fn)) + (t_out + extra_out*ease(smooth(step/$fn), n)) * sin(t_angles[0] + (t_angles[1] - t_angles[0])*smooth(step/$fn))],
-        for(step = [0:$fn]) [r * cos(angles[1] + (angles[0] - angles[1])*smooth(step/$fn)) - (t_in + extra_in*ease(smooth(step/$fn), n)) * cos(t_angles[1] + (t_angles[0] - t_angles[1])*smooth(step/$fn)), r * sin(angles[1] + (angles[0] - angles[1])*smooth(step/$fn)) - (t_in + extra_in*ease(smooth(step/$fn), n)) * sin(t_angles[1] + (t_angles[0] - t_angles[1])*smooth(step/$fn))]
+        for(step = [0:$fn]) [r * cos(angles[0] + (angles[1] - angles[0])*smooth(step/$fn)) + (t_out + extra_out_start*ease(smooth(step/$fn), n)) * cos(t_angles[0] + (t_angles[1] - t_angles[0])*smooth(step/$fn)), r * sin(angles[0] + (angles[1] - angles[0])*smooth(step/$fn)) + (t_out + extra_out_start*ease(smooth(step/$fn), n)) * sin(t_angles[0] + (t_angles[1] - t_angles[0])*smooth(step/$fn))],
+        for(step = [0:$fn]) [r * cos(angles[1] + (angles[0] - angles[1])*smooth(step/$fn)) - (t_in + extra_in_start*ease(smooth(step/$fn), n)) * cos(t_angles[1] + (t_angles[0] - t_angles[1])*smooth(step/$fn)), r * sin(angles[1] + (angles[0] - angles[1])*smooth(step/$fn)) - (t_in + extra_in_start*ease(smooth(step/$fn), n)) * sin(t_angles[1] + (t_angles[0] - t_angles[1])*smooth(step/$fn))]
     ];
     linear_extrude(height) polygon(points);
 }
@@ -97,14 +104,13 @@ module crown(top = false) {
 // Wheels and springs
 for (i = [0:2]) rotate([0, 0, 360/3*i]) {
     difference() {
-        union() {
+        union() {            
             // Spring
-            for (j = [0: 1]) mirror([0, j, 0]) {                
-                translate([pipe_id/2 - wheel_od/2 + wheel_tight - spring_radius + spring_shift_x, wheel_support_width/2 + spring_shift_y, -wheel_bearing_with_washers_height/2 - wheel_vertical_clearance - wheel_support_height]) spring(spring_radius, spring_angles, spring_extra_angles, spring_t/2, 1, spring_t/2, 1, spring_n, wheel_support_height, $fn=64);
-                
+            if (i == 0) {
+                translate([spring_shift_x, spring_shift_y, -wheel_bearing_with_washers_height/2 - wheel_vertical_clearance - wheel_support_height]) spring(spring_radius, spring_angles, spring_extra_angles, spring_t/2, spring_t/2, 1, spring_t/2, spring_t/2, 1, spring_n, wheel_support_height, $fn=64);
+                translate([spring2_shift_x, spring2_shift_y, -wheel_bearing_with_washers_height/2 - wheel_vertical_clearance - wheel_support_height]) mirror([0, 1, 0]) spring(spring2_radius, spring2_angles, spring2_extra_angles, spring2_t/2, spring2_t/2, 1, spring2_t/2, spring2_t/2, 1, spring2_n, wheel_support_height, $fn=64);
             }
 
-            
      translate([pipe_id/2 - wheel_od/2 + wheel_tight, 0, 0]) difference() {
         union() {
         rotate([wheel_angle, 0, 0]) {
@@ -224,6 +230,8 @@ for (i = [0:2]) rotate([0, 0, 360/3*i]) {
  //pipe();
  
  //rotate([180, 0, 0]) drilledcrown(true);
- drilledcrown(false, true);
+ //drilledcrown(false, true);
  //translate([0, 0, -16.5]) cylinder(16.5, body_od, body_od);
  //hardware();
+ 
+crown(true);
