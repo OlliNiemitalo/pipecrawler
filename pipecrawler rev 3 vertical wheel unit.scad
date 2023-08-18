@@ -21,8 +21,8 @@ bolt_nominal_diameter = 3;
 bolt_head_diameter = 6;
 bolt_head_height = 3;
 
-wheel_support_height = 11;
-wheel_vertical_clearance = 0.5;
+wheel_support_height = 10.5;
+wheel_vertical_clearance = 1;
 wheel_horizontal_clearance = 10;
 wheel_support_diam = 13;
 wheel_shoulder_diameter = 12;
@@ -35,24 +35,22 @@ vertical_wheel_support_tieholeb_y = 25;
 spring_radii = [19.5,19.5];
 spring_shift_x = pipe_id/2 - wheel_od/2 + wheel_tight - spring_radii[0] + 5;
 spring_shift_y = wheel_support_diam/2;
-spring_angles = [-8.27, 135];
-spring_extra_t = [2, 0, 2, 1];
+spring_angles = [135, 135, -8.27, -8.27];
+spring_extra_t = [0.35, 0.35, 0.35, 0.35];
 spring_extra_angles = [-38.65, -24.1];
 spring_p = 2;
 spring_t = 1;
 spring_n = 64;
-spring_skips = [1, 0, 0, 2];
 
 spring2_radii = [pipe_id/2 - wheel_od/2 + wheel_tight, pipe_id/2 - wheel_od/2 + wheel_tight];
 spring2_shift_x = 4;
 spring2_shift_y = 0.16;
 spring2_angles = [6.1, 43];
-spring2_extra_t = [2, 0, 2, 1];
+spring2_extra_t = [0.35, 0.35, 0.35, 0.35];
 spring2_extra_angles = [-39, 25];
 spring2_p = 2;
 spring2_t = 1;
 spring2_n = 64;
-spring2_skips = [1, 0, 0, 2];
 
 spring2_support_extra = 2.885;
 
@@ -108,9 +106,9 @@ module wheelsupport(top = false) {
         union() {
             mirror([0, top?1:0, 0]) {
             // Bent spring
-            translate([spring_shift_x, spring_shift_y, -wheel_bearing_with_washers_height/2 - wheel_vertical_clearance - wheel_support_height]) color([1, 1, 0.5]) linear_extrude(wheel_support_height) spiral_flexure(spring_radii, spring_angles, spring_angles + spring_extra_angles, spring_t/2, spring_extra_t[0], spring_extra_t[2], spring_t/2, spring_extra_t[3], spring_extra_t[1], spring_p, spring_skips, spring_n);
+            translate([spring_shift_x, spring_shift_y, -wheel_bearing_with_washers_height/2 - wheel_vertical_clearance - wheel_support_height]) color([1, 1, 0.5]) linear_extrude(wheel_support_height) spiral_flexure(spring_radii, spring_angles, spring_angles + spring_extra_angles, spring_t/2, spring_extra_t[0], spring_extra_t[2], spring_t/2, spring_extra_t[3], spring_extra_t[1], spring_p, spring_n);
             // Almost straight spring
-            translate([spring2_shift_x, spring2_shift_y, -wheel_bearing_with_washers_height/2 - wheel_vertical_clearance - wheel_support_height]) mirror([0, 1, 0]) color([1, 1, 0.5]) linear_extrude(wheel_support_height) spiral_flexure(spring2_radii, spring2_angles, spring2_angles + spring2_extra_angles, spring2_t/2, spring2_extra_t[0], spring2_extra_t[2], spring2_t/2, spring2_extra_t[3], spring2_extra_t[1], spring2_p, spring2_skips, spring2_n);
+            translate([spring2_shift_x, spring2_shift_y, -wheel_bearing_with_washers_height/2 - wheel_vertical_clearance - wheel_support_height]) mirror([0, 1, 0]) color([1, 1, 0.5]) linear_extrude(wheel_support_height) spiral_flexure(spring2_radii, spring2_angles, spring2_angles + spring2_extra_angles, spring2_t/2, spring2_extra_t[0], spring2_extra_t[2], spring2_t/2, spring2_extra_t[3], spring2_extra_t[1], spring2_p, spring2_n);
             // Spring supports
             translate([0, 0, -15]) linear_extrude(15) polygon([[38.22, -32.064], [8.7, -32], [8.7, 11], [18.02, 20.804]]);
     }
