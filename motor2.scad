@@ -47,7 +47,7 @@ module bearing_cutout() {
     translate([0, 0, bearing_height]) cylinder(wheel_lip_height, bearing_od/2 - wheel_lip_width, bearing_od/2 - wheel_lip_width);
 }
 
-if (false) ScrewHole( bolt_nominal_diameter, motor_y + motor_h, position=[motor_offset, motor_hole_d/2, 0]) ScrewHole( bolt_nominal_diameter, motor_y + motor_h, position=[motor_offset, -motor_hole_d/2, 0]) difference() {
+if (true) ScrewHole( bolt_nominal_diameter, motor_y + motor_h, position=[motor_offset, motor_hole_d/2, 0]) ScrewHole( bolt_nominal_diameter, motor_y + motor_h, position=[motor_offset, -motor_hole_d/2, 0]) difference() {
     union() {
         minkowski() {
             translate([0, 0, shaft_support_h - 15 - 0.5]) cube([4-0.75, 42, 30], center=true);
@@ -171,17 +171,19 @@ if (false) ClearanceHole( bolt_nominal_diameter, 10, position=[cos(60 - 40 + 120
     }    
 }
 
-ScrewHole( bolt_nominal_diameter, 10, position=[-9, -15, 0], tolerance=0.1)
-ScrewHole( bolt_nominal_diameter, 10, position=[-9, 15, 0], tolerance=0.1)
-ScrewHole( bolt_nominal_diameter, 10, position=[-4, -15, 0], tolerance=0.1)
-ScrewHole( bolt_nominal_diameter, 10, position=[-4, 15, 0], tolerance=0.1)
-difference() {
-    union() {
-        translate([-19/4, 0, (bat_l + 4)/2]) cube([19/2+4, 19+4, bat_l + 4], center=true);
-        translate([-19/4, 0, 10/2]) cube([19/2+4, 19+4 + 16, 10], center=true);
-        cylinder(2, 19/2 + 2, 19/2 + 2, $fn=64);
-        translate([0, 0, bat_l + 2]) cylinder(2, 19/2 + 2, 19/2 + 2, $fn=64);        
+if (false) {
+    ScrewHole( bolt_nominal_diameter, 10, position=[-9, -15, 0], tolerance=0.1)
+    ScrewHole( bolt_nominal_diameter, 10, position=[-9, 15, 0], tolerance=0.1)
+    ScrewHole( bolt_nominal_diameter, 10, position=[-4, -15, 0], tolerance=0.1)
+    ScrewHole( bolt_nominal_diameter, 10, position=[-4, 15, 0], tolerance=0.1)
+    difference() {
+        union() {
+            translate([-19/4, 0, (bat_l + 4)/2]) cube([19/2+4, 19+4, bat_l + 4], center=true);
+            translate([-19/4, 0, 10/2]) cube([19/2+4, 19+4 + 16, 10], center=true);
+            cylinder(2, 19/2 + 2, 19/2 + 2, $fn=64);
+            translate([0, 0, bat_l + 2]) cylinder(2, 19/2 + 2, 19/2 + 2, $fn=64);        
+        }
+        translate([0, 0, 2]) cylinder(bat_l, 19/2, 19/2);
+        translate([-19/4, 0, (bat_l + 4)/2]) cube([19/2+4, 19, 50], center=true);
     }
-    translate([0, 0, 2]) cylinder(bat_l, 19/2, 19/2);
-    translate([-19/4, 0, (bat_l + 4)/2]) cube([19/2+4, 19, 50], center=true);
 }
